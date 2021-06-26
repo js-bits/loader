@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import fetch from '@js-bits/fetch';
 import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
 import Executor from '@js-bits/executor';
@@ -27,15 +27,17 @@ class Loader extends Executor {
       options.timeout = undefined;
     }
 
-    const executor = (resolve, reject) => {
-      $.ajax({
-        success: resolve,
-        error: reject,
+    const executor = async (resolve, reject) => {
+      try {
+        const response = await fetch(this.ajaxSettings.url, this.ajaxSettings);
 
         // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
-        dataType: 'json',
-        ...this.ajaxSettings,
-      });
+        // dataType: 'json',
+        resolve(response.json());
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
     };
 
     super(executor, baseOptions);

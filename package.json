@@ -41,9 +41,9 @@
     "node": ">=12"
   },
   "dependencies": {
-    "jquery": "^3.6.0",
     "@js-bits/enumerate": "^0.4.0",
     "@js-bits/executor": "^0.1.5",
+    "@js-bits/fetch": "^0.0.1",
     "@js-bits/timeout": "^0.1.3"
   },
   "jest": {
