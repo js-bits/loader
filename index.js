@@ -27,29 +27,24 @@ class Loader extends Executor {
       options.timeout = undefined;
     }
 
-    super(baseOptions);
+    const executor = () => {
+      $.ajax(
+        $.extend(
+          {
+            success: this._onSuccess.bind(this),
+            error: this._onError.bind(this),
+
+            // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
+            dataType: 'json',
+          },
+          this._ajaxSettings
+        )
+      );
+    };
+
+    super(executor, baseOptions);
 
     this._ajaxSettings = options;
-  }
-
-  /**
-   * @implements {Executor#_execute}
-   * @protected
-   * @returns {void}
-   */
-  _execute() {
-    $.ajax(
-      $.extend(
-        {
-          success: this._onSuccess.bind(this),
-          error: this._onError.bind(this),
-
-          // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
-          dataType: 'json',
-        },
-        this._ajaxSettings
-      )
-    );
   }
 
   /**
