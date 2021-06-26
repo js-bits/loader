@@ -59,22 +59,24 @@ class Loader extends Executor {
   reject(error, response) {
     let reason = error;
 
-    switch (error.type) {
-      case 'request-timeout': // node-fetch only
-        reason = new Error('Request timeout exceeded');
-        reason.name = ERRORS.LoaderTimeoutError;
-        break;
-      case 'invalid-json': // node-fetch only
-        reason = new Error(`Response parsing error: ${error.message}`);
-        reason.name = ERRORS.LoaderResponseParsingError;
-        break;
-      case 'aborted': // node-fetch only
-        reason = new Error(`Request aborted: ${error.message}`);
-        reason.name = ERRORS.LoaderRequestAbortError;
-        break;
-      default:
-        reason = new Error(`Request error: ${error.message}`);
-        reason.name = ERRORS.LoaderRequestError;
+
+    if (error.name === 'AbortError') {
+      reason = new Error(`Request aborted: ${error.message}`);
+      reason.name = ERRORS.LoaderRequestAbortError;
+    } else {
+      switch (error.type) {
+        case 'request-timeout': // node-fetch only
+          reason = new Error('Request timeout exceeded');
+          reason.name = ERRORS.LoaderTimeoutError;
+          break;
+        case 'invalid-json': // node-fetch only
+          reason = new Error(`Response parsing error: ${error.message}`);
+          reason.name = ERRORS.LoaderResponseParsingError;
+          break;
+        default:
+          reason = new Error(`Request error: ${error.message}`);
+          reason.name = ERRORS.LoaderRequestError;
+      }
     }
 
     reason.response = response;
