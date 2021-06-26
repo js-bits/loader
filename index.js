@@ -12,7 +12,7 @@ const ERRORS = {
 
 /**
  * Base AJAX loader class which provides all Executor's features
- * plus advanced errors handeling and some utility functions.
+ * plus advanced errors handling and some utility functions.
  * @extends Executor
  */
 class Loader extends Executor {
@@ -105,6 +105,6 @@ Loader.prototype.send = Loader.prototype.execute;
  */
 Loader.prototype.load = Loader.prototype.execute;
 
-Loader.ERRORS = ERRORS;
+Object.assign(Loader, ERRORS);
 
 export default Loader;
