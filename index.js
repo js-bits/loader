@@ -1,4 +1,4 @@
-import fetch from '@js-bits/fetch';
+import fetch, { AbortController } from '@js-bits/fetch';
 import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
 import Executor from '@js-bits/executor';
@@ -27,9 +27,15 @@ class Loader extends Executor {
       options.timeout = undefined;
     }
 
+    const abortController = new AbortController();
+    const { signal } = abortController;
+
     const executor = async (resolve, reject) => {
       try {
-        const response = await fetch(options.url, options);
+        const response = await fetch(options.url, {
+          ...options,
+          signal,
+        });
 
         if (response.ok) {
           try {
@@ -48,6 +54,7 @@ class Loader extends Executor {
 
     super(executor, baseOptions);
 
+    this.abort = abortController.abort.bind(abortController);
     this.requestURL = options.url;
   }
 

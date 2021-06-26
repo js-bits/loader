@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals';
 import { cyan } from '@js-bits/log-in-color';
-import { AbortController } from '@js-bits/fetch';
 import Loader from './index.js';
 
 const env = cyan(`[${typeof window === 'undefined' ? 'node' : 'jsdom'}]`);
@@ -82,18 +81,15 @@ describe(`Loader: ${env}`, () => {
 
   test('abort error', async () => {
     expect.assertions(4);
-    const controller = new AbortController();
-    const { signal } = controller;
     const url = 'https://swapi.dev/api/people';
     const dailyRates = new Loader({
       url,
-      signal,
     });
 
     dailyRates.load();
 
     setTimeout(() => {
-      controller.abort();
+      dailyRates.abort();
     }, 100);
 
     try {
