@@ -1,14 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 import $ from 'jquery';
+import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
 import Executor from '@js-bits/executor';
 
-const ERRORS = {
-  ABORT: 'BaseLoaderRequestAbortError',
-  TIMEOUT: 'BaseLoaderTimeoutError',
-  REQUEST: 'BaseLoaderRequestError',
-  PARSE: 'BaseLoaderResponseParsingError',
-};
+const ERRORS = enumerate(String)`
+  LoaderRequestAbortError
+  LoaderTimeoutError
+  LoaderRequestError
+  LoaderResponseParsingError
+`;
 
 /**
  * Base AJAX loader class which provides all Executor's features
@@ -72,19 +73,19 @@ class Loader extends Executor {
     switch (status) {
       case 'timeout':
         error = new Error('Request timeout exceeded');
-        error.name = ERRORS.TIMEOUT;
+        error.name = ERRORS.LoaderTimeoutError;
         break;
       case 'parsererror':
         error = new Error(`Parsing error${errorThrown}`);
-        error.name = ERRORS.PARSE;
+        error.name = ERRORS.LoaderResponseParsingError;
         break;
       case 'abort':
         error = new Error(`Request aborted${errorThrown}`);
-        error.name = ERRORS.ABORT;
+        error.name = ERRORS.LoaderRequestAbortError;
         break;
       default:
         error = new Error(`Request error${errorThrown}`);
-        error.name = ERRORS.REQUEST;
+        error.name = ERRORS.LoaderRequestError;
         error.httpStatusCode = xhr.status;
     }
 
