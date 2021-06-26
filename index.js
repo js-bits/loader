@@ -27,10 +27,10 @@ class Loader extends Executor {
       options.timeout = undefined;
     }
 
-    const executor = () => {
+    const executor = (resolve, reject) => {
       $.ajax({
-        success: this.resolve.bind(this),
-        error: this.reject.bind(this),
+        success: resolve,
+        error: reject,
 
         // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
         dataType: 'json',
