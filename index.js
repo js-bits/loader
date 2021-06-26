@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import $ from 'jquery';
 import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
@@ -30,38 +29,28 @@ class Loader extends Executor {
 
     const executor = () => {
       $.ajax({
-        success: this._onSuccess.bind(this),
-        error: this._onError.bind(this),
+        success: this.resolve.bind(this),
+        error: this.reject.bind(this),
 
         // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
         dataType: 'json',
-        ...this._ajaxSettings,
+        ...this.ajaxSettings,
       });
     };
 
     super(executor, baseOptions);
 
-    this._ajaxSettings = options;
-  }
-
-  /**
-   * Resolves loader promise with loaded data
-   * @protected
-   * @returns {void}
-   */
-  _onSuccess(...args) {
-    this.resolve(...args);
+    this.ajaxSettings = options;
   }
 
   /**
    * Converts jQuery.ajax error parameters to more meaningful form
-   * @protected
    * @param {jqXHR} xhr - a superset of the XMLHTTPRequest object used by jQuery
    * @param {string} status - a string describing the type of error that occurred
    * @param {string} [errorThrown] - an exception object, if one occurred
    * @returns {void}
    */
-  _onError(xhr, status, errorThrown) {
+  reject(xhr, status, errorThrown) {
     if (errorThrown !== null && errorThrown !== undefined) {
       errorThrown = `. Cause: ${errorThrown}`;
     } else {
@@ -90,9 +79,9 @@ class Loader extends Executor {
     }
 
     error.xhr = xhr;
-    error.url = this._ajaxSettings.url;
+    error.url = this.ajaxSettings.url;
 
-    this.reject(error);
+    super.reject(error);
   }
 }
 
