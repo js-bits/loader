@@ -32,11 +32,8 @@ class Loader extends Executor {
         const response = await fetch(options.url, options);
 
         if (response.ok) {
-          // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
-          // dataType: 'json',
-          // console.log('response', response);
           try {
-            const json = await response.json();
+            const json = await response.json(); // dataType: 'json',
             resolve(json);
           } catch (error) {
             reject(error, response);
@@ -61,8 +58,6 @@ class Loader extends Executor {
    */
   reject(error, response) {
     let reason = error;
-
-    console.log('fetch API error', error);
 
     switch (error.type) {
       case 'request-timeout': // node-fetch only
