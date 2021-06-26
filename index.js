@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import $ from 'zepto';
+import $ from 'jquery';
 import Timeout from '@js-bits/timeout';
 import Executor from '@js-bits/executor';
 
@@ -28,18 +28,14 @@ class Loader extends Executor {
     }
 
     const executor = () => {
-      $.ajax(
-        $.extend(
-          {
-            success: this._onSuccess.bind(this),
-            error: this._onError.bind(this),
+      $.ajax({
+        success: this._onSuccess.bind(this),
+        error: this._onError.bind(this),
 
-            // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
-            dataType: 'json',
-          },
-          this._ajaxSettings
-        )
-      );
+        // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
+        dataType: 'json',
+        ...this._ajaxSettings,
+      });
     };
 
     super(executor, baseOptions);

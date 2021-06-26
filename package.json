@@ -41,7 +41,7 @@
     "node": ">=12"
   },
   "dependencies": {
-    "zepto": "^1.2.0",
+    "jquery": "^3.6.0",
     "@js-bits/executor": "^0.1.5",
     "@js-bits/timeout": "^0.1.3"
   },
