@@ -17,9 +17,10 @@ describe(`Loader: ${env}`, () => {
   });
 
   test('request error', async () => {
-    expect.assertions(2);
+    expect.assertions(5);
+    const url = 'https://swapi.dev/api/people/10000/';
     const swCharacter = new Loader({
-      url: 'https://swapi.dev/api/people/10000/',
+      url,
     });
 
     swCharacter.load();
@@ -28,14 +29,18 @@ describe(`Loader: ${env}`, () => {
       await swCharacter;
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.LoaderRequestError);
-      expect(reason).toHaveProperty('message', 'Request error. Cause: NOT FOUND');
+      expect(reason).toHaveProperty('message', 'Request error: NOT FOUND');
+      expect(reason).toHaveProperty('requestURL', url);
+      expect(reason.response).toHaveProperty('status', 404);
+      expect(reason.response).toHaveProperty('url', url);
     }
   });
 
   test('timeout error', async () => {
-    expect.assertions(2);
+    expect.assertions(4);
+    const url = 'https://swapi.dev/api/people/1/';
     const swCharacter = new Loader({
-      url: 'https://swapi.dev/api/people/1/',
+      url,
       timeout: 100,
     });
 
@@ -46,13 +51,16 @@ describe(`Loader: ${env}`, () => {
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.LoaderTimeoutError);
       expect(reason).toHaveProperty('message', 'Request timeout exceeded');
+      expect(reason).toHaveProperty('requestURL', url);
+      expect(reason.response).toBeUndefined();
     }
   });
 
   test('parse error', async () => {
-    expect.assertions(2);
+    expect.assertions(5);
+    const url = 'https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/xml?start_date=2021-05-30';
     const dailyRates = new Loader({
-      url: 'https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/xml?start_date=2021-05-30',
+      url,
     });
 
     dailyRates.load();
@@ -63,29 +71,37 @@ describe(`Loader: ${env}`, () => {
       expect(reason).toHaveProperty('name', Loader.LoaderResponseParsingError);
       expect(reason).toHaveProperty(
         'message',
-        'Parsing error. Cause: SyntaxError: Unexpected token < in JSON at position 0'
+        `Response parsing error: invalid json response body at ${url} reason: Unexpected token < in JSON at position 0`
       );
+      expect(reason).toHaveProperty('requestURL', url);
+      expect(reason.response).toHaveProperty('status', 200);
+      expect(reason.response).toHaveProperty('url', url);
     }
   });
 
   test('abort error', async () => {
-    expect.assertions(2);
+    expect.assertions(4);
+    const controller = new AbortController();
+    const { signal } = controller;
+    const url = 'https://swapi.dev/api/people';
     const dailyRates = new Loader({
-      url: 'https://swapi.dev/api/people',
-      beforeSend: xhr => {
-        setTimeout(() => {
-          xhr.abort();
-        }, 100);
-      },
+      url,
+      signal,
     });
 
     dailyRates.load();
+
+    setTimeout(() => {
+      controller.abort();
+    }, 100);
 
     try {
       await dailyRates;
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.LoaderRequestAbortError);
-      expect(reason).toHaveProperty('message', 'Request aborted. Cause: abort');
+      expect(reason).toHaveProperty('message', 'Request aborted: The user aborted a request.');
+      expect(reason).toHaveProperty('requestURL', url);
+      expect(reason.response).toBeUndefined();
     }
   });
 });

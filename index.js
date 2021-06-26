@@ -29,61 +29,63 @@ class Loader extends Executor {
 
     const executor = async (resolve, reject) => {
       try {
-        const response = await fetch(this.ajaxSettings.url, this.ajaxSettings);
+        const response = await fetch(options.url, options);
 
-        // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
-        // dataType: 'json',
-        resolve(response.json());
+        if (response.ok) {
+          // explicitly specified to prevent unexpected js execution with jQuery's "intelligent guess" by default
+          // dataType: 'json',
+          // console.log('response', response);
+          try {
+            const json = await response.json();
+            resolve(json);
+          } catch (error) {
+            reject(error, response);
+          }
+        } else {
+          reject(new Error(`${response.statusText}`), response);
+        }
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     };
 
     super(executor, baseOptions);
 
-    this.ajaxSettings = options;
+    this.requestURL = options.url;
   }
 
   /**
-   * Converts jQuery.ajax error parameters to more meaningful form
-   * @param {jqXHR} xhr - a superset of the XMLHTTPRequest object used by jQuery
-   * @param {string} status - a string describing the type of error that occurred
-   * @param {string} [errorThrown] - an exception object, if one occurred
+   * @param {Error} error
+   * @param {Response} response
    * @returns {void}
    */
-  reject(xhr, status, errorThrown) {
-    if (errorThrown !== null && errorThrown !== undefined) {
-      errorThrown = `. Cause: ${errorThrown}`;
-    } else {
-      errorThrown = '';
-    }
+  reject(error, response) {
+    let reason = error;
 
-    let error;
+    console.log('fetch API error', error);
 
-    switch (status) {
-      case 'timeout':
-        error = new Error('Request timeout exceeded');
-        error.name = ERRORS.LoaderTimeoutError;
+    switch (error.type) {
+      case 'request-timeout': // node-fetch only
+        reason = new Error('Request timeout exceeded');
+        reason.name = ERRORS.LoaderTimeoutError;
         break;
-      case 'parsererror':
-        error = new Error(`Parsing error${errorThrown}`);
-        error.name = ERRORS.LoaderResponseParsingError;
+      case 'invalid-json': // node-fetch only
+        reason = new Error(`Response parsing error: ${error.message}`);
+        reason.name = ERRORS.LoaderResponseParsingError;
         break;
-      case 'abort':
-        error = new Error(`Request aborted${errorThrown}`);
-        error.name = ERRORS.LoaderRequestAbortError;
+      case 'aborted': // node-fetch only
+        reason = new Error(`Request aborted: ${error.message}`);
+        reason.name = ERRORS.LoaderRequestAbortError;
         break;
       default:
-        error = new Error(`Request error${errorThrown}`);
-        error.name = ERRORS.LoaderRequestError;
-        error.httpStatusCode = xhr.status;
+        reason = new Error(`Request error: ${error.message}`);
+        reason.name = ERRORS.LoaderRequestError;
     }
 
-    error.xhr = xhr;
-    error.url = this.ajaxSettings.url;
+    reason.response = response;
+    reason.requestURL = this.requestURL;
 
-    super.reject(error);
+    super.reject(reason);
   }
 }
 
