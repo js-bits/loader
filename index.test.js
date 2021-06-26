@@ -7,14 +7,12 @@ const env = cyan(`[${typeof window === 'undefined' ? 'node' : 'jsdom'}]`);
 
 describe(`Loader: ${env}`, () => {
   test('works', async () => {
-    const loader = new Loader({
+    const swCharacter = new Loader({
       url: 'https://swapi.dev/api/people/1/',
     });
 
-    loader.load();
-
-    const result = await loader;
-    expect(result).toHaveProperty('name', 'Luke Skywalker');
-    return loader;
+    swCharacter.load();
+    expect(await swCharacter).toHaveProperty('name', 'Luke Skywalker');
+    return swCharacter;
   });
 });
