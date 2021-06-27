@@ -3,7 +3,7 @@ import { jest } from '@jest/globals';
 import { cyan } from '@js-bits/log-in-color';
 import Loader from './index.js';
 
-const env = cyan(`[${typeof window === 'undefined' ? 'node' : 'jsdom'}]`);
+const env = cyan`[${typeof window === 'undefined' ? 'node' : 'jsdom'}]`;
 
 describe(`Loader: ${env}`, () => {
   test('successful request', async () => {
