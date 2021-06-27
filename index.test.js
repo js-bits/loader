@@ -29,16 +29,15 @@ describe(`Loader: ${env}`, () => {
     });
 
     test('text/xml', async () => {
-      expect.assertions(2);
-      const xml = new Loader('https://www.w3schools.com/xml/note.xml', {
+      expect.assertions(1);
+      const xml = new Loader('https://api.nbp.pl/api/exchangerates/tables/a/last/1/?format=xml', {
         mimeType: 'text/xml',
       });
 
       xml.load();
       const result = await xml;
-      const headings = result.querySelectorAll('heading');
-      expect(headings.length).toEqual(1);
-      expect(headings[0].textContent).toEqual('Reminder');
+      const rates = result.querySelectorAll('Rates > Rate');
+      expect(rates.length).toBeGreaterThan(10);
       return xml;
     });
 
