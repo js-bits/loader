@@ -1,4 +1,5 @@
 import fetch, { AbortController } from '@js-bits/fetch';
+import parseDOM from '@js-bits/dom-parser';
 import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
 import Executor from '@js-bits/executor';
@@ -10,14 +11,9 @@ const ERRORS = enumerate(String)`
   LoaderResponseParsingError
 `;
 
-/**
- * Base AJAX loader class which provides all Executor's features
- * plus advanced errors handling and some utility functions.
- * @extends Executor
- */
 class Loader extends Executor {
   constructor(url, options = {}) {
-    const { timings, timeout, ...fetchOptions } = options;
+    const { timings, timeout, mimeType = 'application/json', ...fetchOptions } = options;
     const abortController = new AbortController();
 
     const executor = async (resolve, reject) => {
@@ -30,7 +26,22 @@ class Loader extends Executor {
         if (response.ok) {
           let data;
           try {
-            data = await response.json(); // dataType: 'json',
+            switch (mimeType) {
+              case 'application/json':
+                data = await response.json();
+                break;
+              case 'text/plain':
+                data = await response.text();
+                break;
+              case 'text/xml':
+              case 'text/html':
+              case 'application/xml':
+              case 'image/svg+xml':
+                data = parseDOM(await response.text(), mimeType);
+                break;
+              default:
+                data = response;
+            }
           } catch (error) {
             error.name = 'ParsingError';
             return reject(error, response);
