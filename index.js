@@ -16,25 +16,15 @@ const ERRORS = enumerate(String)`
  * @extends Executor
  */
 class Loader extends Executor {
-  constructor(options) {
-    const baseOptions = {
-      timings: options.timings,
-    };
-
-    if (options.timeout instanceof Timeout) {
-      // hard timeout (numeric value) should not be passed here as it will be handles by jQuery.ajax module
-      baseOptions.timeout = options.timeout;
-      options.timeout = undefined;
-    }
-
+  constructor(url, options = {}) {
+    const { timings, timeout, ...fetchOptions } = options;
     const abortController = new AbortController();
-    const { signal } = abortController;
 
     const executor = async (resolve, reject) => {
       try {
-        const response = await fetch(options.url, {
-          ...options,
-          signal,
+        const response = await fetch(url, {
+          ...fetchOptions,
+          signal: abortController.signal,
         });
 
         if (response.ok) {
@@ -42,7 +32,7 @@ class Loader extends Executor {
           try {
             data = await response.json(); // dataType: 'json',
           } catch (error) {
-            error.type = 'parsing-error';
+            error.name = 'ParsingError';
             return reject(error, response);
           }
           return resolve(data);
@@ -53,10 +43,13 @@ class Loader extends Executor {
       }
     };
 
-    super(executor, baseOptions);
+    super(executor, {
+      timings,
+      timeout,
+    });
 
     this.abort = abortController.abort.bind(abortController);
-    this.requestURL = options.url;
+    this.requestURL = url;
   }
 
   /**
@@ -67,24 +60,22 @@ class Loader extends Executor {
   reject(error, response) {
     let reason = error;
 
-
-    if (error.name === 'AbortError') {
-      reason = new Error(`Request aborted: ${error.message}`);
-      reason.name = ERRORS.LoaderRequestAbortError;
-    } else {
-      switch (error.type) {
-        case 'request-timeout': // node-fetch only
-          reason = new Error('Request timeout exceeded');
-          reason.name = ERRORS.LoaderTimeoutError;
-          break;
-        case 'parsing-error':
-          reason = new Error(`Response parsing error: ${error.message}`);
-          reason.name = ERRORS.LoaderResponseParsingError;
-          break;
-        default:
-          reason = new Error(`Request error: ${error.message}`);
-          reason.name = ERRORS.LoaderRequestError;
-      }
+    switch (error.name) {
+      case 'AbortError':
+        reason = new Error(`Request aborted: ${error.message}`);
+        reason.name = ERRORS.LoaderRequestAbortError;
+        break;
+      case Timeout.TimeoutExceededError:
+        reason = new Error('Request timeout exceeded');
+        reason.name = ERRORS.LoaderTimeoutError;
+        break;
+      case 'ParsingError':
+        reason = new Error(`Response parsing error: ${error.message}`);
+        reason.name = ERRORS.LoaderResponseParsingError;
+        break;
+      default:
+        reason = new Error(`Request error: ${error.message}`);
+        reason.name = ERRORS.LoaderRequestError;
     }
 
     reason.response = response;

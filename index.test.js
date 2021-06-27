@@ -7,9 +7,7 @@ const env = cyan(`[${typeof window === 'undefined' ? 'node' : 'jsdom'}]`);
 
 describe(`Loader: ${env}`, () => {
   test('successful request', async () => {
-    const swCharacter = new Loader({
-      url: 'https://swapi.dev/api/people/1/',
-    });
+    const swCharacter = new Loader('https://swapi.dev/api/people/1/');
 
     swCharacter.load();
     expect(await swCharacter).toHaveProperty('name', 'Luke Skywalker');
@@ -19,9 +17,7 @@ describe(`Loader: ${env}`, () => {
   test('request error', async () => {
     expect.assertions(5);
     const url = 'https://swapi.dev/api/people/10000/';
-    const swCharacter = new Loader({
-      url,
-    });
+    const swCharacter = new Loader(url);
 
     swCharacter.load();
 
@@ -39,8 +35,7 @@ describe(`Loader: ${env}`, () => {
   test('timeout error', async () => {
     expect.assertions(4);
     const url = 'https://swapi.dev/api/people/1/';
-    const swCharacter = new Loader({
-      url,
+    const swCharacter = new Loader(url, {
       timeout: 100,
     });
 
@@ -56,12 +51,10 @@ describe(`Loader: ${env}`, () => {
     }
   });
 
-  test('parse error', async () => {
+  test('parsing error', async () => {
     expect.assertions(5);
     const url = 'https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/xml?start_date=2021-05-30';
-    const dailyRates = new Loader({
-      url,
-    });
+    const dailyRates = new Loader(url);
 
     dailyRates.load();
 
@@ -82,9 +75,7 @@ describe(`Loader: ${env}`, () => {
   test('abort error', async () => {
     expect.assertions(4);
     const url = 'https://swapi.dev/api/people';
-    const dailyRates = new Loader({
-      url,
-    });
+    const dailyRates = new Loader(url);
 
     dailyRates.load();
 
