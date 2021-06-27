@@ -38,15 +38,16 @@ class Loader extends Executor {
         });
 
         if (response.ok) {
+          let data;
           try {
-            const json = await response.json(); // dataType: 'json',
-            resolve(json);
+            data = await response.json(); // dataType: 'json',
           } catch (error) {
-            reject(error, response);
+            error.type = 'parsing-error';
+            return reject(error, response);
           }
-        } else {
-          reject(new Error(`${response.statusText}`), response);
+          return resolve(data);
         }
+        reject(new Error(`${response.statusText}`), response);
       } catch (error) {
         reject(error);
       }
@@ -76,7 +77,7 @@ class Loader extends Executor {
           reason = new Error('Request timeout exceeded');
           reason.name = ERRORS.LoaderTimeoutError;
           break;
-        case 'invalid-json': // node-fetch only
+        case 'parsing-error':
           reason = new Error(`Response parsing error: ${error.message}`);
           reason.name = ERRORS.LoaderResponseParsingError;
           break;
