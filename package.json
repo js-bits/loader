@@ -41,6 +41,7 @@
     "node": ">=12"
   },
   "dependencies": {
+    "@js-bits/dom-parser": "^0.0.2",
     "@js-bits/enumerate": "^0.4.0",
     "@js-bits/executor": "^0.1.6",
     "@js-bits/fetch": "^0.1.0",
