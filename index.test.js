@@ -14,6 +14,47 @@ describe(`Loader: ${env}`, () => {
     return swCharacter;
   });
 
+  describe('MIME types', () => {
+    test('text/plain', async () => {
+      expect.assertions(2);
+      const swCharacter = new Loader('https://swapi.dev/api/people/1/', {
+        mimeType: 'text/plain',
+      });
+
+      swCharacter.load();
+      const result = await swCharacter;
+      expect(typeof result).toEqual('string');
+      expect(result).toContain('Luke Skywalker');
+      return swCharacter;
+    });
+
+    test('text/xml', async () => {
+      expect.assertions(2);
+      const xml = new Loader('https://www.w3schools.com/xml/note.xml', {
+        mimeType: 'text/xml',
+      });
+
+      xml.load();
+      const result = await xml;
+      const headings = result.querySelectorAll('heading');
+      expect(headings.length).toEqual(1);
+      expect(headings[0].textContent).toEqual('Reminder');
+      return xml;
+    });
+
+    test('raw response', async () => {
+      expect.assertions(1);
+      const swCharacter = new Loader('https://swapi.dev/api/people/1/', {
+        mimeType: 'raw',
+      });
+
+      swCharacter.load();
+      const result = await swCharacter;
+      expect(result).toHaveProperty('statusText', 'OK');
+      return swCharacter;
+    });
+  });
+
   test('request error', async () => {
     expect.assertions(5);
     const url = 'https://swapi.dev/api/people/10000/';
