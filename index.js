@@ -66,6 +66,7 @@ class Loader extends Executor {
         reason.name = ERRORS.LoaderRequestAbortError;
         break;
       case Timeout.TimeoutExceededError:
+        this.abort();
         reason = new Error('Request timeout exceeded');
         reason.name = ERRORS.LoaderTimeoutError;
         break;
