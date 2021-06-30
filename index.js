@@ -13,7 +13,7 @@ const ERRORS = enumerate(String)`
 
 class Loader extends Executor {
   constructor(url, options = {}) {
-    const { timings, timeout, mimeType = 'application/json', ...fetchOptions } = options;
+    const { timings, timeout, mimeType, ...fetchOptions } = options;
     const abortController = new AbortController();
 
     const executor = async (resolve, reject) => {
@@ -24,9 +24,11 @@ class Loader extends Executor {
         });
 
         if (response.ok) {
+          const responseType = response.headers.get('content-type');
+          const resultType = mimeType || responseType;
           let data;
           try {
-            switch (mimeType) {
+            switch (resultType) {
               case 'application/json':
                 data = await response.json();
                 break;
@@ -37,7 +39,7 @@ class Loader extends Executor {
               case 'text/html':
               case 'application/xml':
               case 'image/svg+xml':
-                data = parseDOM(await response.text(), mimeType);
+                data = parseDOM(await response.text(), resultType);
                 break;
               default:
                 data = response;

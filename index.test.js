@@ -94,7 +94,7 @@ describe(`Loader: ${env}`, () => {
   test('parsing error', async () => {
     expect.assertions(5);
     const url = 'https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/xml?start_date=2021-05-30';
-    const dailyRates = new Loader(url);
+    const dailyRates = new Loader(url, { mimeType: 'application/json' });
 
     dailyRates.load();
 
