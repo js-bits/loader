@@ -99,7 +99,38 @@ const { EXECUTED, RESOLVED } = Loader.STATES;
 
 ## Error handling
 
-[TBD]
+```javascript
+const content = new Loader('...');
+
+(async () => {
+  content.load();
+
+  try {
+    const result = await content;
+    // ...
+  } catch (reason) {
+    switch (reason.name) {
+      case Loader.LoaderRequestAbortError:
+        // request has been aborted
+        // ...
+        break;
+      case Loader.LoaderTimeoutError:
+        // request has exceeded specified timeout
+        // ...
+        break;
+      case Loader.LoaderResponseParsingError:
+        // response was successfully received but something went wrong during parsing
+        // you can use reason.response to get access to raw Response object
+        // ...
+        break;
+      case Loader.LoaderRequestError:
+        // error status code has received (4xx, 5xx)
+        // ...
+        break;
+    }
+  }
+})();
+```
 
 ## Notes
 
