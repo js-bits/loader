@@ -19,8 +19,8 @@ class Loader extends Executor {
     const executor = async (resolve, reject) => {
       try {
         const response = await fetch(url, {
-          ...fetchOptions,
           signal: abortController.signal,
+          ...fetchOptions,
         });
 
         if (response.ok) {
