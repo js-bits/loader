@@ -42,7 +42,21 @@ Content type will be automatically detected and the result type will be based on
 - `String` - for `'text/plain'` content
 - [HTMLDocument](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument) - for `'text/html'` content
 - [XMLDocument](https://developer.mozilla.org/en-US/docs/Web/API/XMLDocument) - for XML based content (like `'text/xml'`, and `'image/svg+xml'`)
-- And raw [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) when content type is not recognized
+- Raw [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) object when content type is not recognized
+
+You also can explicitly specify expected content type using optional `mimeType` parameter.
+
+```javascript
+const xml = new Loader('https://api.nbp.pl/api/exchangerates/tables/a/last/1/?format=xml', {
+  mimeType: 'text/plain',
+});
+
+(async () => {
+  xml.load();
+  const result = await xml;
+  console.log(result.slice(0, 38)); // <?xml version="1.0" encoding="utf-8"?>
+})();
+```
 
 Since `Loader` is an implementation of [Executor](https://www.npmjs.com/package/@js-bits/executor), features like [execution timings](https://www.npmjs.com/package/@js-bits/executor#execution-timings) and [hard/soft timeout](https://www.npmjs.com/package/@js-bits/executor#timeout) are also available here.
 
