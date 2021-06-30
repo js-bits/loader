@@ -28,21 +28,19 @@ class Loader extends Executor {
           const resultType = mimeType || responseType;
           let data;
           try {
-            switch (resultType) {
-              case 'application/json':
-                data = await response.json();
-                break;
-              case 'text/plain':
-                data = await response.text();
-                break;
-              case 'text/xml':
-              case 'text/html':
-              case 'application/xml':
-              case 'image/svg+xml':
-                data = parseDOM(await response.text(), resultType);
-                break;
-              default:
-                data = response;
+            if (resultType.includes('application/json')) {
+              data = await response.json();
+            } else if (resultType.includes('text/plain')) {
+              data = await response.text();
+            } else if (
+              resultType.includes('text/xml') ||
+              resultType.includes('text/html') ||
+              resultType.includes('application/xml') ||
+              resultType.includes('image/svg+xml')
+            ) {
+              data = parseDOM(await response.text(), resultType);
+            } else {
+              data = response;
             }
           } catch (error) {
             error.name = 'ParsingError';
