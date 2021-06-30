@@ -74,6 +74,29 @@ There are `Loader#send()` and `Loader#load()` aliases of `Executor#execute()` me
 
 Features of [Executor](https://www.npmjs.com/package/@js-bits/executor), like [execution timings](https://www.npmjs.com/package/@js-bits/executor#execution-timings) and [hard/soft timeout](https://www.npmjs.com/package/@js-bits/executor#timeout) are also available here.
 
+```javascript
+const url = 'https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/xml?start_date=2021-05-30';
+const content = new Loader(url, {
+  timeout: 1000,
+});
+const { EXECUTED, RESOLVED } = Loader.STATES;
+
+(async () => {
+  content.load();
+
+  try {
+    const result = await content;
+    const { timings } = content;
+    console.log(result); // <data>...</data>
+    console.log(`Load time: ${timings[RESOLVED] - timings[EXECUTED]} ms`); // Load time: 538 ms
+  } catch (reason) {
+    if (reason.name === Loader.LoaderTimeoutError && reason.requestURL === url) {
+      console.log('LoaderTimeoutError', reason.requestURL);
+    }
+  }
+})();
+```
+
 ## Error handling
 
 [TBD]
