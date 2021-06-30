@@ -24,18 +24,27 @@ import Loader from '@js-bits/loader';
 
 ## How to use
 
-[TBD]
+Simple example
 
 ```javascript
+const swCharacter = new Loader('https://swapi.dev/api/people/1/');
+
 (async () => {
-  const swCharacter = new Loader('https://swapi.dev/api/people/1/');
   swCharacter.load(); // just a contextualized alias of Executor#execute();
   const result = await swCharacter;
   console.log(result.name); // Luke Skywalker
 })();
 ```
 
-Since `loader` is an implementation of [Executor](https://www.npmjs.com/package/@js-bits/executor), features like execution timings and hard/soft timeout are also available here.
+Content type will be automatically detected and the result type will be based on that information. It can be one of the following:
+
+- `Object` - for `'application/json'` content
+- `String` - for `'text/plain'` content
+- [HTMLDocument](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDocument) - for `'text/html'` content
+- [XMLDocument](https://developer.mozilla.org/en-US/docs/Web/API/XMLDocument) - for XML based content (like `'text/xml'`, and `'image/svg+xml'`)
+- And raw [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) when content type is not recognized
+
+Since `Loader` is an implementation of [Executor](https://www.npmjs.com/package/@js-bits/executor), features like [execution timings](https://www.npmjs.com/package/@js-bits/executor#execution-timings) and [hard/soft timeout](https://www.npmjs.com/package/@js-bits/executor#timeout) are also available here.
 
 ## Notes
 
