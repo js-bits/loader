@@ -44,8 +44,10 @@ class Loader extends Executor {
               default:
                 data = response;
             }
-          } catch (error) {
+          } catch (cause) {
+            const error = new Error(cause.message);
             error.name = 'ParsingError';
+            error.cause = cause;
             return reject(error, response);
           }
           return resolve(data);
@@ -71,7 +73,7 @@ class Loader extends Executor {
    * @returns {void}
    */
   reject(error, response) {
-    let reason = error;
+    let reason;
 
     switch (error.name) {
       case 'AbortError':
@@ -92,6 +94,7 @@ class Loader extends Executor {
         reason.name = ERRORS.LoaderRequestError;
     }
 
+    reason.cause = error.cause || error;
     reason.response = response;
     reason.requestURL = this.requestURL;
 
