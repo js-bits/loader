@@ -4,15 +4,13 @@ var fetch = require('@js-bits/fetch');
 var parseDOM = require('@js-bits/dom-parser');
 var enumerate = require('@js-bits/enumerate');
 var Timeout = require('@js-bits/timeout');
-var Executor = require('@js-bits/executor');
+var executor = require('@js-bits/executor');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-var fetch__default = /*#__PURE__*/_interopDefaultLegacy(fetch);
 var parseDOM__default = /*#__PURE__*/_interopDefaultLegacy(parseDOM);
 var enumerate__default = /*#__PURE__*/_interopDefaultLegacy(enumerate);
 var Timeout__default = /*#__PURE__*/_interopDefaultLegacy(Timeout);
-var Executor__default = /*#__PURE__*/_interopDefaultLegacy(Executor);
 
 const ERRORS = enumerate__default['default'](String)`
   LoaderRequestAbortError
@@ -21,14 +19,14 @@ const ERRORS = enumerate__default['default'](String)`
   LoaderResponseParsingError
 `;
 
-class Loader extends Executor__default['default'] {
+class Loader extends executor.Executor {
   constructor(url, options = {}) {
     const { timings, timeout, mimeType, ...fetchOptions } = options;
     const abortController = new fetch.AbortController();
 
     const executor = async (resolve, reject) => {
       try {
-        const response = await fetch__default['default'](url, {
+        const response = await fetch.fetch(url, {
           signal: abortController.signal,
           ...fetchOptions,
         });

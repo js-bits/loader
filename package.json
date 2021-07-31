@@ -51,11 +51,11 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@js-bits/dom-parser": "^0.0.2",
+    "@js-bits/dom-parser": "^0.1.0",
     "@js-bits/enumerate": "^0.5.1",
-    "@js-bits/executor": "^0.1.6",
-    "@js-bits/fetch": "^0.1.0",
-    "@js-bits/timeout": "^0.1.3"
+    "@js-bits/executor": "^1.0.0",
+    "@js-bits/fetch": "^1.0.0",
+    "@js-bits/timeout": "^0.2.1"
   },
   "jest": {
     "projects": [

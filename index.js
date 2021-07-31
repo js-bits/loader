@@ -1,8 +1,8 @@
-import fetch, { AbortController } from '@js-bits/fetch';
+import { fetch, AbortController } from '@js-bits/fetch';
 import parseDOM from '@js-bits/dom-parser';
 import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
-import Executor from '@js-bits/executor';
+import { Executor } from '@js-bits/executor';
 
 const ERRORS = enumerate(String)`
   LoaderRequestAbortError

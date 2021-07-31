@@ -22,6 +22,12 @@ Import where you need it:
 import Loader from '@js-bits/loader';
 ```
 
+or require for CommonJS:
+
+```javascript
+const Loader = require('@js-bits/loader');
+```
+
 ## How to use
 
 Simple example
@@ -134,5 +140,4 @@ const content = new Loader('...');
 
 ## Notes
 
-- Requires [ECMAScript modules](https://nodejs.org/api/esm.html) to be enabled in Node.js environment. Otherwise, compile into a CommonJS module.
 - Does not include any polyfills, which means that Internet Explorer is not supported.

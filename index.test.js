@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals';
 import Loader from './index.js';
+// const Loader = require('./dist/index.cjs');
 
 describe(`Loader`, () => {
   test('successful request', async () => {
