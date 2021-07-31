@@ -1,6 +1,6 @@
 {
   "name": "@js-bits/loader",
-  "version": "0.2.12",
+  "version": "0.3.0",
   "description": "HTTP resource loader",
   "keywords": [
     "javascript",
