@@ -17,10 +17,18 @@
     "measurement"
   ],
   "type": "module",
+  "main": "./dist/index.cjs",
   "module": "./index.js",
-  "exports": "./index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "default": "./index.js"
+    }
+  },
   "scripts": {
+    "build": "rollup ./index.js --format cjs --file dist/index.cjs --exports default",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
+    "test-cjs": "jest --verbose",
     "test-coverage": "yarn test --coverage",
     "test-watch": "yarn test --watch",
     "lint": "eslint '**/*.{js,jsx}'"
@@ -36,14 +44,15 @@
     "@js-bits/log-in-color": "^0.1.0",
     "@types/jest": "^26.0.22",
     "husky": "^7.0.1",
-    "jest": "^26.6.3"
+    "jest": "^26.6.3",
+    "rollup": "^2.55.1"
   },
   "engines": {
     "node": ">=12"
   },
   "dependencies": {
     "@js-bits/dom-parser": "^0.0.2",
-    "@js-bits/enumerate": "^0.4.0",
+    "@js-bits/enumerate": "^0.5.1",
     "@js-bits/executor": "^0.1.6",
     "@js-bits/fetch": "^0.1.0",
     "@js-bits/timeout": "^0.1.3"
