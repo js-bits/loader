@@ -682,40 +682,27 @@
   dependencies:
     jsdom "^16.6.0"
 
-"@js-bits/enumerate@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-0.10.0.tgz#65c26a9074e2a04fa45e2f9c36d8e2451e1fdf51"
-  integrity sha512-mcsKOT7/duvRWy8h9ThEhj8VzpTREZakaYP4Pg9j467yhNd/3MIllBfbPo+D4iSD4vZ62uN1kIRcFsPW3yzJFA==
-
-"@js-bits/enumerate@^0.5.1":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-0.5.2.tgz#fa48b4800f77305ae833e0b0fad63f229fd89f6c"
-  integrity sha512-VAOE7fk+bg72VEFPOAb/z0cjhwUgTMgQxJ2zl1Cx2PLTbiUZ04UjtmVJt828SlynzQSqE/jYu83gS28dNvgMGA==
-
-"@js-bits/enumerate@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-0.6.1.tgz#ed5f0474f6d6e6d331815d5f7eecd90692be8ca9"
-  integrity sha512-4vL1+oq+vEsK1Pq6sma/TZ1TlE4qANyUjHN+QGofNmc5B6ZbrIHzzSopJccwgQ5H3r3I+72GsbuCN/bBNo2DxA==
-
-"@js-bits/enumerate@^0.8.0":
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-0.8.4.tgz#c4debf8c1c0d8c1f2f6309ec451aa01ece614b33"
-  integrity sha512-3RVDWTgxDvXKm6p0LT1duaBNIxGS4reMzjen8bpdihlUZASMannizrf9XOv6vtLVFI4dAzJFHMY+CW790mGoNQ==
+"@js-bits/enumerate@^1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-1.0.16.tgz#fec0af75a2a3ff6696b048184e4c3dc581e3f014"
+  integrity sha512-4I8gcuAhsehytEyIF9gTqKebS8P8D/76/Voo7iRTuUbwdLkdmBCos+v9iAVTu/ltY/XpM0fPkHSEP3lwI0xP0g==
+  dependencies:
+    "@js-bits/typedef-utils" "^1.0.4"
 
 "@js-bits/eslint-config@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@js-bits/eslint-config/-/eslint-config-1.0.3.tgz#cfd341f6f016528838a987ea7c008e7936e75593"
   integrity sha512-jtFNBpj/2YxjMsB5PV6AgFxNhphfZRp6R9fVs8y9jfeN5y4eS8imHeQ9MWnNWqmK6dvgFEmbOejsw3g0ELhFpQ==
 
-"@js-bits/executor@^1.0.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@js-bits/executor/-/executor-1.1.0.tgz#4d9c80772be9828d7c2bb1e78f845a751e21c982"
-  integrity sha512-pV//KAXhRY/CRMNCFw8Xk3oIbrD3WOO4r34U2iO4w+uufkfujelTHFA2eP2Uq2igUdSBQcdcRQyIcOfJ/HHwPw==
+"@js-bits/executor@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@js-bits/executor/-/executor-2.0.1.tgz#79b0d5d3520b4fa92204332d75900fc119a6d3a1"
+  integrity sha512-lX1ngW/FkRzRHSNHYBN1pjLwbcJGUX81GokIXYUIW+QPZP27xgb7mj/juxqPbjdXZbH2WK4/r2jcMjLKwBRU+w==
   dependencies:
-    "@js-bits/enumerate" "^0.8.0"
-    "@js-bits/performance" "^0.1.2"
-    "@js-bits/timeout" "^0.2.1"
-    "@js-bits/xpromise" "^0.3.0"
+    "@js-bits/enumerate" "^1.0.16"
+    "@js-bits/performance" "^1.0.1"
+    "@js-bits/timeout" "^1.0.5"
+    "@js-bits/xpromise" "^1.0.6"
 
 "@js-bits/fetch@^2.0.0":
   version "2.0.0"
@@ -748,37 +735,37 @@
     prettier "^2.8.8"
     typescript "^4.8.4"
 
-"@js-bits/log-in-color@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@js-bits/log-in-color/-/log-in-color-0.3.1.tgz#cd869d92f683a82ef5b1aefc46c8a784851c217b"
-  integrity sha512-4jGYfHvP5lMg9UHt2Sxt+1BvNaDu9gmBlLx6dS+kmWtBl6fuLdbuO2BPl1iXMYTbPdrnWSTVTCMyR/1M0tD79Q==
+"@js-bits/log-in-color@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@js-bits/log-in-color/-/log-in-color-1.0.1.tgz#b3e19e4b401f881e1b448b1aa15fffce5cffc0e8"
+  integrity sha512-sHYPPn9F5/hlMz/rTX/J2pOketrwSbXfmo6c2WjcXRwr5juNOoFt9XbwM+WOtgQ/3OzJXOCatn96ZvvgMH3pWg==
 
-"@js-bits/performance@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@js-bits/performance/-/performance-0.1.2.tgz#1518c1cfebfd57adbc907d147dfcfb5d2875d943"
-  integrity sha512-ofdBLUwwiunc3rn2KKg3bly3cgrTMJmFjOwSbgz5SKlGNt9WYKz+SDS8E6ddIjVY3KJh786OoQLuwA1eLsS9Hw==
-
-"@js-bits/timeout@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@js-bits/timeout/-/timeout-0.2.1.tgz#ac9f436e6fe6bccb9aaa154dae617d43a17fbf20"
-  integrity sha512-JTFZG75yUUSp6zKCCVW7RKfgH/2JzD28Ake6YCyxn6BhMXcKpd/Z0GmBnEg35MBRwpQ8b8rHFPFXfUFQTWlDyQ==
+"@js-bits/performance@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@js-bits/performance/-/performance-1.0.1.tgz#1288c1fa6a61a7a0ba95904672192fc9391280a8"
+  integrity sha512-pWCwa83umeq1diVAdrZQWO4CM5WvKQ7AY8snDusIW3WwUCbBvyMItmUB0pE7OLnB3SCCb20ex1/M614yOE5xrw==
   dependencies:
-    "@js-bits/enumerate" "^0.5.1"
-    "@js-bits/xpromise" "^0.2.1"
+    "@types/node" "^20.2.5"
 
-"@js-bits/xpromise@^0.2.1":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@js-bits/xpromise/-/xpromise-0.2.2.tgz#551ebdc7fadeca602032ffdc22a661e18768fe00"
-  integrity sha512-cDN86dvytgX3ZENjtFIoldKSFvvrOhsrDSVRrXH7h4hvmVMkYSNTf+GK+9C7JEpHQ+hGEqRxSSTTAzivRex5Ow==
+"@js-bits/timeout@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@js-bits/timeout/-/timeout-1.0.5.tgz#57d9beedcb61ae7bb7aa3b912e6cc24ac47c08c4"
+  integrity sha512-u9N3H/TCojbkM+eyJgrdKDj+3rVWNS4rZgsCpvQUQpoiwdkbUKGAYZK+MCiemzMJj5rTYMWjtOglEMmWuTohoA==
   dependencies:
-    "@js-bits/enumerate" "^0.8.0"
+    "@js-bits/enumerate" "^1.0.16"
+    "@js-bits/xpromise" "^1.0.6"
 
-"@js-bits/xpromise@^0.3.0":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@js-bits/xpromise/-/xpromise-0.3.3.tgz#ddab45bea0e4e8586d0ff4c20815e6591ff728aa"
-  integrity sha512-VgfCja2aBCb+ekrl/zbMZcw4XNniYF5jIGn387iN3PuTLf5Aqf7xmELjymDlMCdtQX/qW0J2RdyRoALxAwbbBw==
+"@js-bits/typedef-utils@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-1.0.4.tgz#8505fb70f07982abdfcc7bf5acae2ea8fe131a59"
+  integrity sha512-/2KaKjrtBNM9Q3iHYG3+8FjgG9VETvnqs4IRNlG4XPWur/G9C4A4CvtCJxiIQcbXaMc9dniCrbh3bM3XUntM/A==
+
+"@js-bits/xpromise@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@js-bits/xpromise/-/xpromise-1.0.6.tgz#418d9f232916dfa7407d3ae33f35166001df7fcb"
+  integrity sha512-lTOkQJxF9JEg99vku93fWn/p+gLqZv+l0yCdOrwVYHyY/IE5Fzy9rioDQXkZ6gEX3BH6DRdqOeu8P3V0fFn4LA==
   dependencies:
-    "@js-bits/enumerate" "^0.10.0"
+    "@js-bits/enumerate" "^1.0.16"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -928,7 +915,7 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/node@*", "@types/node@^20.2.3":
+"@types/node@*", "@types/node@^20.2.3", "@types/node@^20.2.5":
   version "20.2.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.5.tgz#26d295f3570323b2837d322180dfbf1ba156fefb"
   integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
