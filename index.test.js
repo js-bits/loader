@@ -3,7 +3,7 @@ import { jest } from '@jest/globals';
 import Loader from './index.js';
 // const Loader = require('./dist/index.cjs');
 
-describe(`Loader`, () => {
+describe('Loader', () => {
   test('successful request', async () => {
     const swCharacter = new Loader('https://swapi.dev/api/people/1/');
 
