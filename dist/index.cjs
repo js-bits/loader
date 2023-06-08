@@ -6,13 +6,7 @@ var enumerate = require('@js-bits/enumerate');
 var Timeout = require('@js-bits/timeout');
 var executor = require('@js-bits/executor');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var parseDOM__default = /*#__PURE__*/_interopDefaultLegacy(parseDOM);
-var enumerate__default = /*#__PURE__*/_interopDefaultLegacy(enumerate);
-var Timeout__default = /*#__PURE__*/_interopDefaultLegacy(Timeout);
-
-const ERRORS = enumerate__default["default"](String)`
+const ERRORS = enumerate(String)`
   LoaderRequestAbortError
   LoaderTimeoutError
   LoaderRequestError
@@ -47,7 +41,7 @@ class Loader extends executor.Executor {
               case 'text/html':
               case 'application/xml':
               case 'image/svg+xml':
-                data = parseDOM__default["default"](await response.text(), resultType);
+                data = parseDOM(await response.text(), resultType);
                 break;
               default:
                 data = response;
@@ -88,7 +82,7 @@ class Loader extends executor.Executor {
         reason = new Error(`Request aborted: ${error.message}`);
         reason.name = ERRORS.LoaderRequestAbortError;
         break;
-      case Timeout__default["default"].TimeoutExceededError:
+      case Timeout.TimeoutExceededError:
         this.abort();
         reason = new Error('Request timeout exceeded');
         reason.name = ERRORS.LoaderTimeoutError;
