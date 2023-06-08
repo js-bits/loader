@@ -43,9 +43,10 @@
   "devDependencies": {
     "@js-bits/formalinter": "^0.2.1",
     "@js-bits/log-in-color": "^0.3.1",
-    "@types/jest": "^27.4.1",
+    "@types/jest": "29.4.3",
     "husky": "^8.0.3",
-    "jest": "^27.5.1",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
     "rollup": "^3.24.0"
   },
   "engines": {
