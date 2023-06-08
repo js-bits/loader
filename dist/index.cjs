@@ -6,12 +6,15 @@ var enumerate = require('@js-bits/enumerate');
 var Timeout = require('@js-bits/timeout');
 var executor = require('@js-bits/executor');
 
-const ERRORS = enumerate(String)`
+const ERRORS = enumerate.ts(
+  `
   LoaderRequestAbortError
   LoaderTimeoutError
   LoaderRequestError
   LoaderResponseParsingError
-`;
+`,
+  String
+);
 
 class Loader extends executor.Executor {
   constructor(url, options = {}) {
