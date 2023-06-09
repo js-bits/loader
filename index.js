@@ -157,12 +157,12 @@ class Loader extends Executor {
 }
 
 /**
- * Just an alias of {@link Executor#execute} method
+ * Just an alias of {@link Loader#execute} method
  */
 Loader.prototype.send = Executor.prototype.execute;
 
 /**
- * Just an alias of {@link Executor#execute} method
+ * Just an alias of {@link Loader#execute} method
  */
 Loader.prototype.load = Executor.prototype.execute;
 
