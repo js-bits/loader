@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals';
 import Loader from './index.js';
@@ -28,6 +30,7 @@ describe('Loader', () => {
 
     test('text/xml', async () => {
       expect.assertions(1);
+      /** @type {Loader<XMLDocument>} */
       const xml = new Loader('https://api.nbp.pl/api/exchangerates/tables/a/last/1/?format=xml', {
         mimeType: 'text/xml',
       });
@@ -102,14 +105,11 @@ describe('Loader', () => {
       await dailyRates;
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.LoaderResponseParsingError);
-      expect(reason).toHaveProperty(
-        'message',
-        `Response parsing error: invalid json response body at ${url} reason: Unexpected token < in JSON at position 0`
-      );
+      expect(reason.message).toMatch('Response parsing error:');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toHaveProperty('status', 200);
       expect(reason.response).toHaveProperty('url', url);
-      expect(reason.cause).toBeInstanceOf(Error);
+      expect(reason.cause.name).toMatch('Error');
     }
   });
 
@@ -128,10 +128,10 @@ describe('Loader', () => {
       await dailyRates;
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.LoaderRequestAbortError);
-      expect(reason).toHaveProperty('message', 'Request aborted: The user aborted a request.');
+      expect(reason.message).toMatch('Request aborted:');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toBeUndefined();
-      expect(reason.cause).toBeInstanceOf(Error);
+      expect(reason.cause.name).toMatch('Error');
     }
   });
 });

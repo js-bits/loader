@@ -16,11 +16,23 @@ const ERRORS = enumerate.ts(
   String
 );
 
+/**
+ * @template T
+ * @extends Executor<T>
+ */
 class Loader extends executor.Executor {
+  /**
+   *
+   * @param {string | URL} url
+   * @param {ConstructorParameters<typeof Executor<T>>[1]} options - input parameters
+   */
   constructor(url, options = {}) {
-    const { timings, timeout, mimeType, ...fetchOptions } = options;
+    const { timings, timeout, /** @type {DOMParserSupportedType} */ mimeType, ...fetchOptions } = options;
     const abortController = new fetch.AbortController();
 
+    /**
+     * @type {ConstructorParameters<typeof Executor<T>>[0]} executor
+     */
     const executor = async (resolve, reject) => {
       try {
         const response = await fetch.fetch(url, {
@@ -100,7 +112,9 @@ class Loader extends executor.Executor {
     }
 
     reason.cause = error.cause || error;
+    // @ts-expect-error Property 'response' does not exist on type 'Error'.
     reason.response = response;
+    // @ts-expect-error Property 'requestURL' does not exist on type 'Error'.
     reason.requestURL = this.requestURL;
 
     super.reject(reason);
@@ -110,12 +124,12 @@ class Loader extends executor.Executor {
 /**
  * Just an alias of {@link Executor#execute} method
  */
-Loader.prototype.send = Loader.prototype.execute;
+Loader.prototype.send = executor.Executor.prototype.execute;
 
 /**
  * Just an alias of {@link Executor#execute} method
  */
-Loader.prototype.load = Loader.prototype.execute;
+Loader.prototype.load = executor.Executor.prototype.execute;
 
 Object.assign(Loader, ERRORS);
 
