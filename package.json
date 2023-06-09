@@ -54,7 +54,7 @@
     "node": ">=14.18"
   },
   "dependencies": {
-    "@js-bits/dom-parser": "^1.0.0",
+    "@js-bits/dom-parser": "^1.0.1",
     "@js-bits/enumerate": "^1.0.16",
     "@js-bits/executor": "^2.0.2",
     "@js-bits/fetch": "^2.0.0",

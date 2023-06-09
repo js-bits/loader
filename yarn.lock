@@ -675,10 +675,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@js-bits/dom-parser@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@js-bits/dom-parser/-/dom-parser-1.0.0.tgz#fdf06626944ca775bbdfaf92d59611b08324bf92"
-  integrity sha512-Nxf1UEZ3rpvT2rfO4OLlHQ1aPY21uMQllOoZiZDrfSj6ai/pR5SRIL+yX+mnD9cvbSC1K1dMhZIT6lJCHiRx3g==
+"@js-bits/dom-parser@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@js-bits/dom-parser/-/dom-parser-1.0.1.tgz#99247566d9a8031acbafd275fcc71922854cc7b4"
+  integrity sha512-EfOrCn1EWgGk9vzoG0mRoVTpgDnojk3Prafj3JVviNy3vCFLu9yQkw3cMbDra25APmX9hP5eYG2pPRplMCpneQ==
   dependencies:
     jsdom "^22.1.0"
 
