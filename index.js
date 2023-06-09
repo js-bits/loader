@@ -1,5 +1,4 @@
-// @ts-ignore
-import { fetch, AbortController } from '@js-bits/fetch';
+import fetch from '@js-bits/fetch';
 import parseDOM from '@js-bits/dom-parser';
 import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
@@ -52,7 +51,7 @@ class Loader extends Executor {
    */
   static TimeoutError = ERRORS.TimeoutError;
 
-  /** @type {Response} */
+  /** @type {import('node-fetch').Response | Response} */
   rawResponse;
 
   /**

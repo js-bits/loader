@@ -34,7 +34,7 @@
     "test-cjs": "jest --verbose",
     "test-coverage": "yarn test --coverage",
     "test-watch": "yarn test --watch",
-    "lint": "tsc --noEmit && eslint '**/*.{js,jsx}'",
+    "lint": "tsc --noEmit && eslint '**/*.{js,jsx,ts,tsx}'",
     "prepare": "husky install"
   },
   "repository": {
@@ -47,7 +47,7 @@
     "@js-bits/dom-parser": "^1.0.2",
     "@js-bits/enumerate": "^1.0.17",
     "@js-bits/executor": "^2.0.4",
-    "@js-bits/fetch": "^2.0.0",
+    "@js-bits/fetch": "^3.1.2",
     "@js-bits/timeout": "^1.0.8"
   },
   "devDependencies": {
