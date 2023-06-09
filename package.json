@@ -46,7 +46,7 @@
   "dependencies": {
     "@js-bits/dom-parser": "^1.0.2",
     "@js-bits/enumerate": "^1.0.17",
-    "@js-bits/executor": "^2.0.3",
+    "@js-bits/executor": "^2.0.4",
     "@js-bits/fetch": "^2.0.0",
     "@js-bits/timeout": "^1.0.8"
   },
