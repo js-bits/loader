@@ -96,7 +96,7 @@ const { EXECUTED, RESOLVED } = Loader.STATES;
     console.log(result); // <data>...</data>
     console.log(`Load time: ${timings[RESOLVED] - timings[EXECUTED]} ms`); // Load time: 538 ms
   } catch (reason) {
-    if (reason.name === Loader.LoaderTimeoutError && reason.requestURL === url) {
+    if (reason.name === Loader.TimeoutError && reason.requestURL === url) {
       console.log('LoaderTimeoutError', reason.requestURL);
     }
   }
@@ -116,20 +116,20 @@ const content = new Loader('...');
     // ...
   } catch (reason) {
     switch (reason.name) {
-      case Loader.LoaderRequestAbortError:
+      case Loader.RequestAbortError:
         // request has been aborted
         // ...
         break;
-      case Loader.LoaderTimeoutError:
+      case Loader.TimeoutError:
         // request has exceeded specified timeout
         // ...
         break;
-      case Loader.LoaderResponseParsingError:
+      case Loader.ResponseParsingError:
         // response was successfully received but something went wrong during parsing
         // you can use reason.response to get access to raw Response object
         // ...
         break;
-      case Loader.LoaderRequestError:
+      case Loader.RequestError:
         // error status code has received (4xx, 5xx)
         // ...
         break;
@@ -137,7 +137,3 @@ const content = new Loader('...');
   }
 })();
 ```
-
-## Notes
-
-- Does not include any polyfills, which means that Internet Explorer is not supported.

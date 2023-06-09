@@ -17,6 +17,7 @@ describe('Loader', () => {
   describe('MIME types', () => {
     test('text/plain', async () => {
       expect.assertions(2);
+      /** @type {Loader<string>} */
       const swCharacter = new Loader('https://swapi.dev/api/people/1/', {
         mimeType: 'text/plain',
       });
@@ -60,12 +61,12 @@ describe('Loader', () => {
     const url = 'https://swapi.dev/api/people/10000/';
     const swCharacter = new Loader(url);
 
-    swCharacter.load();
+    swCharacter.send();
 
     try {
       await swCharacter;
     } catch (reason) {
-      expect(reason).toHaveProperty('name', Loader.LoaderRequestError);
+      expect(reason).toHaveProperty('name', Loader.RequestError);
       expect(reason).toHaveProperty('message', 'Request error: NOT FOUND');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toHaveProperty('status', 404);
@@ -81,12 +82,12 @@ describe('Loader', () => {
       timeout: 100,
     });
 
-    swCharacter.load();
+    swCharacter.send();
 
     try {
       await swCharacter;
     } catch (reason) {
-      expect(reason).toHaveProperty('name', Loader.LoaderTimeoutError);
+      expect(reason).toHaveProperty('name', Loader.TimeoutError);
       expect(reason).toHaveProperty('message', 'Request timeout exceeded');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toBeUndefined();
@@ -99,12 +100,12 @@ describe('Loader', () => {
     const url = 'https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/xml?start_date=2021-05-30';
     const dailyRates = new Loader(url, { mimeType: 'application/json' });
 
-    dailyRates.load();
+    dailyRates.send();
 
     try {
       await dailyRates;
     } catch (reason) {
-      expect(reason).toHaveProperty('name', Loader.LoaderResponseParsingError);
+      expect(reason).toHaveProperty('name', Loader.ResponseParsingError);
       expect(reason.message).toMatch('Response parsing error:');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toHaveProperty('status', 200);
@@ -118,7 +119,7 @@ describe('Loader', () => {
     const url = 'https://swapi.dev/api/people';
     const dailyRates = new Loader(url);
 
-    dailyRates.load();
+    dailyRates.send();
 
     setTimeout(() => {
       dailyRates.abort();
@@ -127,7 +128,7 @@ describe('Loader', () => {
     try {
       await dailyRates;
     } catch (reason) {
-      expect(reason).toHaveProperty('name', Loader.LoaderRequestAbortError);
+      expect(reason).toHaveProperty('name', Loader.RequestAbortError);
       expect(reason.message).toMatch('Request aborted:');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toBeUndefined();

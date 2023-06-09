@@ -1,27 +1,80 @@
+// @ts-ignore
 import { fetch, AbortController } from '@js-bits/fetch';
 import parseDOM from '@js-bits/dom-parser';
 import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
 import { Executor } from '@js-bits/executor';
 
-const ERRORS = enumerate(String)`
-  LoaderRequestAbortError
-  LoaderTimeoutError
-  LoaderRequestError
-  LoaderResponseParsingError
-`;
+const { Prefix } = enumerate;
 
+const ERRORS = enumerate.ts(
+  `
+  RequestAbortError
+  TimeoutError
+  RequestError
+  ResponseParsingError
+`,
+  Prefix('Loader|')
+);
+
+/**
+ * @typedef {import('@js-bits/executor/dist/src/executor').Options & {
+ *  mimeType?: DOMParserSupportedType | 'text/plain' | 'application/json' | 'raw'
+ * }} Options
+ */
+
+/**
+ * @template T
+ * @extends Executor<T>
+ */
 class Loader extends Executor {
+  /**
+   * @type {'Loader|RequestAbortError'}
+   * @readonly
+   */
+  static RequestAbortError = ERRORS.RequestAbortError;
+
+  /**
+   * @type {'Loader|RequestError'}
+   * @readonly
+   */
+  static RequestError = ERRORS.RequestError;
+
+  /**
+   * @type {'Loader|ResponseParsingError'}
+   * @readonly
+   */
+  static ResponseParsingError = ERRORS.ResponseParsingError;
+
+  /**
+   * @type {'Loader|TimeoutError'}
+   * @readonly
+   */
+  static TimeoutError = ERRORS.TimeoutError;
+
+  /** @type {Response} */
+  rawResponse;
+
+  /**
+   *
+   * @param {string | URL} url
+   * @param {Options} options - input parameters
+   */
   constructor(url, options = {}) {
     const { timings, timeout, mimeType, ...fetchOptions } = options;
     const abortController = new AbortController();
 
+    /**
+     * @type {ConstructorParameters<typeof Executor<T>>[0]} executor
+     */
     const executor = async (resolve, reject) => {
       try {
         const response = await fetch(url, {
           signal: abortController.signal,
           ...fetchOptions,
         });
+
+        this.rawResponse = response;
 
         if (response.ok) {
           const responseType = response.headers.get('content-type');
@@ -48,11 +101,11 @@ class Loader extends Executor {
             const error = new Error(cause.message);
             error.name = 'ParsingError';
             error.cause = cause;
-            return reject(error, response);
+            reject(error);
           }
-          return resolve(data);
+          resolve(data);
         }
-        reject(new Error(`${response.statusText}`), response);
+        reject(new Error(`${response.statusText}`));
       } catch (error) {
         reject(error);
       }
@@ -69,48 +122,49 @@ class Loader extends Executor {
 
   /**
    * @param {Error} error
-   * @param {Response} response
-   * @returns {void}
+   * @returns {this}
    */
-  reject(error, response) {
+  reject(error) {
     let reason;
 
     switch (error.name) {
       case 'AbortError':
         reason = new Error(`Request aborted: ${error.message}`);
-        reason.name = ERRORS.LoaderRequestAbortError;
+        reason.name = ERRORS.RequestAbortError;
         break;
       case Timeout.TimeoutExceededError:
         this.abort();
         reason = new Error('Request timeout exceeded');
-        reason.name = ERRORS.LoaderTimeoutError;
+        reason.name = ERRORS.TimeoutError;
         break;
       case 'ParsingError':
         reason = new Error(`Response parsing error: ${error.message}`);
-        reason.name = ERRORS.LoaderResponseParsingError;
+        reason.name = ERRORS.ResponseParsingError;
         break;
       default:
         reason = new Error(`Request error: ${error.message}`);
-        reason.name = ERRORS.LoaderRequestError;
+        reason.name = ERRORS.RequestError;
     }
 
     reason.cause = error.cause || error;
-    reason.response = response;
+    // @ts-expect-error Property 'response' does not exist on type 'Error'.
+    reason.response = this.rawResponse;
+    // @ts-expect-error Property 'requestURL' does not exist on type 'Error'.
     reason.requestURL = this.requestURL;
 
-    super.reject(reason);
+    return super.reject(reason);
   }
 }
 
 /**
  * Just an alias of {@link Executor#execute} method
  */
-Loader.prototype.send = Loader.prototype.execute;
+Loader.prototype.send = Executor.prototype.execute;
 
 /**
  * Just an alias of {@link Executor#execute} method
  */
-Loader.prototype.load = Loader.prototype.execute;
+Loader.prototype.load = Executor.prototype.execute;
 
 Object.assign(Loader, ERRORS);
 
