@@ -6,6 +6,11 @@ import Loader from './index.js';
 // const Loader = require('./dist/index.cjs');
 
 describe('Loader', () => {
+  test('STATES', async () => {
+    expect(Loader.STATES.EXECUTED).toEqual('EXECUTED');
+    expect(Loader.STATES.RESOLVED).toEqual('RESOLVED');
+  });
+
   test('successful request', async () => {
     const swCharacter = new Loader('https://swapi.dev/api/people/1/');
 

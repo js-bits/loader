@@ -27,37 +27,13 @@ const ERRORS = enumerate.ts(
  * @extends Executor<T>
  */
 class Loader extends Executor {
-  /**
-   * @type {'Loader|RequestAbortError'}
-   * @readonly
-   */
-  static RequestAbortError = ERRORS.RequestAbortError;
-
-  /**
-   * @type {'Loader|RequestError'}
-   * @readonly
-   */
-  static RequestError = ERRORS.RequestError;
-
-  /**
-   * @type {'Loader|ResponseParsingError'}
-   * @readonly
-   */
-  static ResponseParsingError = ERRORS.ResponseParsingError;
-
-  /**
-   * @type {'Loader|TimeoutError'}
-   * @readonly
-   */
-  static TimeoutError = ERRORS.TimeoutError;
-
   /** @type {import('node-fetch').Response | Response} */
   rawResponse;
 
   /**
    *
    * @param {string | URL} url
-   * @param {Options} options - input parameters
+   * @param {Options} [options] - input parameters
    */
   constructor(url, options = {}) {
     const { timings, timeout, mimeType, ...fetchOptions } = options;
@@ -165,6 +141,9 @@ Loader.prototype.send = Executor.prototype.execute;
  */
 Loader.prototype.load = Executor.prototype.execute;
 
-Object.assign(Loader, ERRORS);
+Loader.RequestAbortError = ERRORS.RequestAbortError;
+Loader.RequestError = ERRORS.RequestError;
+Loader.ResponseParsingError = ERRORS.ResponseParsingError;
+Loader.TimeoutError = ERRORS.TimeoutError;
 
 export default Loader;
