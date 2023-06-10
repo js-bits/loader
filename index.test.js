@@ -21,7 +21,7 @@ describe('Loader', () => {
 
   describe('MIME types', () => {
     test('text/plain', async () => {
-      expect.assertions(2);
+      expect.assertions(4);
       /** @type {Loader<string>} */
       const swCharacter = new Loader('https://swapi.dev/api/people/1/', {
         mimeType: 'text/plain',
@@ -31,6 +31,8 @@ describe('Loader', () => {
       const result = await swCharacter;
       expect(typeof result).toEqual('string');
       expect(result).toContain('Luke Skywalker');
+      expect(swCharacter.timings[Loader.STATES.RESOLVED]).toBeGreaterThan(0);
+      expect(swCharacter.timings[Loader.STATES.RESOLVED]).toBeGreaterThan(swCharacter.timings[Loader.STATES.EXECUTED]);
       return swCharacter;
     });
 
