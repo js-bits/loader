@@ -694,10 +694,10 @@
   resolved "https://registry.yarnpkg.com/@js-bits/eslint-config/-/eslint-config-1.0.3.tgz#cfd341f6f016528838a987ea7c008e7936e75593"
   integrity sha512-jtFNBpj/2YxjMsB5PV6AgFxNhphfZRp6R9fVs8y9jfeN5y4eS8imHeQ9MWnNWqmK6dvgFEmbOejsw3g0ELhFpQ==
 
-"@js-bits/executor@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@js-bits/executor/-/executor-2.0.5.tgz#4c99ea1c45194e27d65b7ea5b0ca80ef467fe93a"
-  integrity sha512-6kXuYpqX8K8X9fptWUWxSeUqdLqh+2Y67t1BnOol/BembAiVPDOwsdyVvYHZXqU5DOnK5XO6t9tbA88qfdZMLw==
+"@js-bits/executor@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@js-bits/executor/-/executor-2.0.6.tgz#453683630c77d42448dc1e950c3713cd85d5610b"
+  integrity sha512-HvqZ4Jj6U6oxOVvUWHgPNo7ic0Ni92nzQ2AW5tG2YYFcMrQHpGR46VILum4lBAH/DF1Gi9goINJF/7Aw6Z2F0A==
   dependencies:
     "@js-bits/enumerate" "^1.0.17"
     "@js-bits/performance" "^1.0.2"
