@@ -6,16 +6,6 @@ import { Executor } from '@js-bits/executor';
 
 const { Prefix } = enumerate;
 
-const ERRORS = enumerate.ts(
-  `
-  RequestAbortError
-  TimeoutError
-  RequestError
-  ResponseParsingError
-`,
-  Prefix('Loader|')
-);
-
 /**
  * @typedef {import('@js-bits/executor/dist/src/executor').Options & {
  *  mimeType?: DOMParserSupportedType | 'text/plain' | 'application/json' | 'raw'
@@ -110,19 +100,23 @@ class Loader extends Executor {
     switch (error.name) {
       case 'AbortError':
         reason = new Error(`Request aborted: ${error.message}`);
+        // eslint-disable-next-line no-use-before-define
         reason.name = ERRORS.RequestAbortError;
         break;
       case Timeout.TimeoutExceededError:
         this.abort();
         reason = new Error('Request timeout exceeded');
-        reason.name = ERRORS.TimeoutError;
+        // eslint-disable-next-line no-use-before-define
+        reason.name = ERRORS.TimeoutExceededError;
         break;
       case 'ParsingError':
         reason = new Error(`Response parsing error: ${error.message}`);
+        // eslint-disable-next-line no-use-before-define
         reason.name = ERRORS.ResponseParsingError;
         break;
       default:
         reason = new Error(`Request error: ${error.message}`);
+        // eslint-disable-next-line no-use-before-define
         reason.name = ERRORS.RequestError;
     }
 
@@ -146,9 +140,20 @@ Loader.prototype.send = Executor.prototype.execute;
  */
 Loader.prototype.load = Executor.prototype.execute;
 
+const ERRORS = enumerate.ts(
+  `
+  RequestAbortError
+  RequestError
+  ResponseParsingError
+  TimeoutExceededError
+`,
+  Prefix(`${Loader.name}|`)
+);
+
+// Assigning properties like this helps typescript to declare the namespace properly
 Loader.RequestAbortError = ERRORS.RequestAbortError;
 Loader.RequestError = ERRORS.RequestError;
 Loader.ResponseParsingError = ERRORS.ResponseParsingError;
-Loader.TimeoutError = ERRORS.TimeoutError;
+Loader.TimeoutExceededError = ERRORS.TimeoutExceededError;
 
 export default Loader;

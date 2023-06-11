@@ -96,7 +96,7 @@ const { EXECUTED, RESOLVED } = Loader.STATES;
     console.log(result); // <data>...</data>
     console.log(`Load time: ${timings[RESOLVED] - timings[EXECUTED]} ms`); // Load time: 538 ms
   } catch (reason) {
-    if (reason.name === Loader.TimeoutError && reason.requestURL === url) {
+    if (reason.name === Loader.TimeoutExceededError && reason.requestURL === url) {
       console.log('LoaderTimeoutError', reason.requestURL);
     }
   }
@@ -120,7 +120,7 @@ const content = new Loader('...');
         // request has been aborted
         // ...
         break;
-      case Loader.TimeoutError:
+      case Loader.TimeoutExceededError:
         // request has exceeded specified timeout
         // ...
         break;

@@ -73,7 +73,7 @@ describe('Loader', () => {
   });
 
   test('request error', async () => {
-    expect.assertions(6);
+    expect.assertions(7);
     const url = 'https://swapi.dev/api/people/10000/';
     const swCharacter = new Loader(url);
 
@@ -83,6 +83,7 @@ describe('Loader', () => {
       await swCharacter;
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.RequestError);
+      expect(reason).toHaveProperty('name', 'Loader|RequestError');
       expect(reason).toHaveProperty('message', 'Request error: NOT FOUND');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toHaveProperty('status', 404);
@@ -92,7 +93,7 @@ describe('Loader', () => {
   });
 
   test('timeout error', async () => {
-    expect.assertions(5);
+    expect.assertions(6);
     const url = 'https://swapi.dev/api/people/1/';
     const swCharacter = new Loader(url, {
       timeout: 100,
@@ -103,7 +104,8 @@ describe('Loader', () => {
     try {
       await swCharacter;
     } catch (reason) {
-      expect(reason).toHaveProperty('name', Loader.TimeoutError);
+      expect(reason).toHaveProperty('name', Loader.TimeoutExceededError);
+      expect(reason).toHaveProperty('name', 'Loader|TimeoutExceededError');
       expect(reason).toHaveProperty('message', 'Request timeout exceeded');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toBeUndefined();
@@ -112,7 +114,7 @@ describe('Loader', () => {
   });
 
   test('parsing error', async () => {
-    expect.assertions(6);
+    expect.assertions(7);
     const url = 'https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/xml?start_date=2021-05-30';
     const dailyRates = new Loader(url, { mimeType: 'application/json' });
 
@@ -122,6 +124,7 @@ describe('Loader', () => {
       await dailyRates;
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.ResponseParsingError);
+      expect(reason).toHaveProperty('name', 'Loader|ResponseParsingError');
       expect(reason.message).toMatch('Response parsing error:');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toHaveProperty('status', 200);
@@ -131,7 +134,7 @@ describe('Loader', () => {
   });
 
   test('abort error', async () => {
-    expect.assertions(5);
+    expect.assertions(6);
     const url = 'https://swapi.dev/api/people';
     const dailyRates = new Loader(url);
 
@@ -145,6 +148,7 @@ describe('Loader', () => {
       await dailyRates;
     } catch (reason) {
       expect(reason).toHaveProperty('name', Loader.RequestAbortError);
+      expect(reason).toHaveProperty('name', 'Loader|RequestAbortError');
       expect(reason.message).toMatch('Request aborted:');
       expect(reason).toHaveProperty('requestURL', url);
       expect(reason.response).toBeUndefined();
