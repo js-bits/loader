@@ -4,8 +4,6 @@ import enumerate from '@js-bits/enumerate';
 import Timeout from '@js-bits/timeout';
 import { Executor } from '@js-bits/executor';
 
-const { Prefix } = enumerate;
-
 /**
  * @typedef {import('@js-bits/executor/dist/src/executor').Options & {
  *  mimeType?: DOMParserSupportedType | 'text/plain' | 'application/json' | 'raw'
@@ -147,7 +145,7 @@ const ERRORS = enumerate.ts(
   ResponseParsingError
   TimeoutExceededError
 `,
-  Prefix(`${Loader.name}|`)
+  `${Loader.name}|`
 );
 
 // Assigning properties like this helps typescript to declare the namespace properly
