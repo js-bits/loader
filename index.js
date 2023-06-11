@@ -30,6 +30,11 @@ class Loader extends Executor {
   /** @type {import('node-fetch').Response | Response} */
   rawResponse;
 
+  // eslint-disable-next-line class-methods-use-this
+  get [Symbol.toStringTag]() {
+    return Loader.name;
+  }
+
   /**
    *
    * @param {string | URL} url

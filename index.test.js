@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals';
+import { Executor } from '@js-bits/executor';
 import Loader from './index.js';
 // const Loader = require('./dist/index.cjs');
 
@@ -9,6 +10,14 @@ describe('Loader', () => {
   test('STATES', async () => {
     expect(Loader.STATES.EXECUTED).toEqual('EXECUTED');
     expect(Loader.STATES.RESOLVED).toEqual('RESOLVED');
+  });
+
+  test('should create an instance of Loader', () => {
+    const loader = new Loader('url');
+    expect(loader).toBeInstanceOf(Loader);
+    expect(loader).toBeInstanceOf(Executor);
+    expect(loader).toBeInstanceOf(Promise);
+    expect(String(loader)).toEqual('[object Loader]');
   });
 
   test('successful request', async () => {
