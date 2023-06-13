@@ -5,12 +5,6 @@ import Timeout from '@js-bits/timeout';
 import { Executor } from '@js-bits/executor';
 
 /**
- * @typedef {import('@js-bits/executor/dist/src/executor').Options & {
- *  mimeType?: DOMParserSupportedType | 'text/plain' | 'application/json' | 'raw'
- * }} Options
- */
-
-/**
  * @template T
  * @extends Executor<T>
  */
@@ -26,7 +20,7 @@ class Loader extends Executor {
   /**
    *
    * @param {string | URL} url
-   * @param {Options} [options] - input parameters
+   * @param {import('./types').Options} [options] - input parameters
    */
   constructor(url, options = {}) {
     const { timings, timeout, mimeType, ...fetchOptions } = options;

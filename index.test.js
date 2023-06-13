@@ -41,7 +41,9 @@ describe('Loader', () => {
       expect(typeof result).toEqual('string');
       expect(result).toContain('Luke Skywalker');
       expect(swCharacter.timings[Loader.STATES.RESOLVED]).toBeGreaterThan(0);
-      expect(swCharacter.timings[Loader.STATES.RESOLVED]).toBeGreaterThan(swCharacter.timings[Loader.STATES.EXECUTED]);
+      expect(swCharacter.timings[Loader.STATES.RESOLVED]).toBeGreaterThan(
+        /** @type {number} */ (swCharacter.timings[Loader.STATES.EXECUTED])
+      );
       return swCharacter;
     });
 
